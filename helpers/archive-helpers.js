@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
-var httpHelpers = require('./http-helpers.js');
+var httpHelpers = require('../web/http-helpers.js');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -39,30 +39,38 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(data, url, callback) {
-  callback(data.includes(url));
+  console.log(data, url ,data.includes(url));
+  callback(data.includes(url), url);
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile(exports.paths.list, url, (error) => {
+  fs.appendFile(exports.paths.list, url, (error, url) => {
     if (error) {
       throw error;
     } else {
+      console.log('does this url exist? ', url)
       callback(url);
     }
   });
 }
 
 exports.isUrlArchived = function(url, callback) {
-  fs.readdir(exports.paths.archivedSites, function(error, files) {
+  console.log(url, 'this is our link');
+  fs.readdir(exports.paths.archivedSites, function(error, files, url) {
     files.forEach((fileName) => {
-      var file = path.join(asset, fileName);
-      fs.readFile(file, 'UTF-8', function(error, contents) {
+      if (url.includes(fileName) || fileName.includes(url)) {
+      var file = path.join(exports.paths.archivedSites, fileName);
+      console.log('our file', file);
+      fs.readdir(file, 'UTF-8', function(error, contents) {
         if (error) {
           throw error;
         } else {
+
+          console.log('this is what is in archive', contents)
           callback(contents);
         }
       });
+     } 
     });
   });
 };

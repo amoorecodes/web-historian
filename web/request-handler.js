@@ -19,38 +19,36 @@ exports.handleRequest = function (req, res) {
       storage += data;
     }).on('end', () => {
       
-      let url = storage.split('=')[1] + '\n';
+      let url = storage.split('=')[1] + '/n';
         archive.readListOfUrls(function(results) {
-          console.log('read list results, ', results);
-          var data = results;
-          archive.isUrlInList(data, url, function(err, result) {
+          // console.log('read list results, ', results);
+          archive.isUrlInList(results, url, function(err, result, url) {
             if (err) {
               console.log(err);
             } else {
-              if (result) {
-                res.end(result);
+              console.log('isInList result', err);
+              if (archive.paths.list.includes(result)) {
+                res.end(archive.paths.siteAssets + '/loading.html');
               } else {
-                archive.addUrlToList(url, function(err) {
-                  if (err) {
-                    console.log(err);
-                  } else {
+                console.log('until this', url)
+                archive.addUrlToList(url, function(url) {
+                    console.log('addUrl', url)
                     archive.isUrlArchived(url, (err, website) => {
-                      if (err) {
-                        console.log(err);
-                      }  else if (website) {
-                        fs.readFile(/*folder in archive */);
-                      } else {
-                        archive.downloadUrls(url)
-                      }
+                      
+                        console.log('website boolean',website);
+                        if (website) {
+                          fs.readFile(archive.paths.sites + url);
+                        } else {
+                          archive.downloadUrls();
+                        }
+                      
                     });
-                  }
-                })
+                  });
+                }
                 res.end(result);
               }
-            }
+            });
           });
         });
-      });
-    });
-  }
-};
+      };
+    };

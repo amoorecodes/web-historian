@@ -115,7 +115,7 @@ describe('archive helpers', function() {
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
 
       archive.addUrlToList('someurl.com', function () {
-        archive.isUrlInList('someurl.com', function (exists) {
+        archive.isUrlInList(archive.paths.list, 'someurl.com', function (exists) {
           expect(exists).to.be.true;
           done();
         });

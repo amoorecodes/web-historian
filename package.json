@@ -9,6 +9,7 @@
     "node": ">=4.0.0"
   },
   "scripts": {
+    "nodemon": "nodemon ./web/basic-server.js",
     "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
     "start": "node ./web/basic-server.js",
     "start:es6": "babel-node ./web/basic-server.js",
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "bluebird": "^3.3.4",
+    "nodemon": "^1.17.4",
     "cron": "^1.1.0",
     "request": "^2.70.0",
     "underscore": "^1.8.3"
