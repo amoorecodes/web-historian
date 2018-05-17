@@ -18,11 +18,8 @@ exports.handleRequest = function (req, res) {
     req.on('data', (data) => {
       storage += data;
     }).on('end', () => {
+      
       let url = storage.split('=')[1] + '\n';
-      fs.appendFile('./archives/sites.txt', url, (error) => {
-        if (error) {
-          throw error;
-        } 
         archive.readListOfUrls(function(results) {
           console.log('read list results, ', results);
           var data = results;
@@ -33,6 +30,21 @@ exports.handleRequest = function (req, res) {
               if (result) {
                 res.end(result);
               } else {
+                archive.addUrlToList(url, function(err) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    archive.isUrlArchived(url, (err, website) => {
+                      if (err) {
+                        console.log(err);
+                      }  else if (website) {
+                        fs.readFile(/*folder in archive */);
+                      } else {
+                        archive.downloadUrls(url)
+                      }
+                    });
+                  }
+                })
                 res.end(result);
               }
             }
