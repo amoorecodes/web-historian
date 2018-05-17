@@ -28,11 +28,11 @@ exports.initialize = function(pathsObj) {
 
 exports.readListOfUrls = function(callback) {
   // callback(data)
-  fs.readFile(exports.paths.publicList, (error, data) => {
+  fs.readFile(exports.paths.list, (error, data) => {
     if (error) {
       throw error;
     } else {
-      callback(data.toString());
+      callback(data.toString().split('\n'));
     }
   });
 };

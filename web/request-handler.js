@@ -26,7 +26,7 @@ exports.handleRequest = function (req, res) {
         archive.readListOfUrls(function(results) {
           console.log('read list results, ', results);
           var data = results;
-          archive.isUrlInList(data, url, (err, result) => {
+          archive.isUrlInList(data, url, function(err, result) {
             if (err) {
               console.log(err);
             } else {
